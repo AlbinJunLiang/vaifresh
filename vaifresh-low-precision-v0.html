@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcBAMAAACAI8KnAAAALVBMVEVHcExAredAredAredAredBredAredAredArOdAredAredAredAredAredArefCaiQgAAAAD3RSTlMAGWBKDSuClTdw/u3ArdzYmon0AAAAv0lEQVR4AWOgG2BUFmBRdmBNT3ZW0nBgYOBc3cC4xvHWu915q3eVAGXPNbDs9V3mYCa5LO4pkHuvgeWt9QEGBqZlfQeh3FkJQF3r3hlAuHtnFQC5a9Y1QLnWD4DclbOARrFUTWFaxrvWRUhype9KoMV9614dZD21bl3kcubdQM2suTcFGJzKk5mTWNQNwC5jcRQUcXGAuDJYM/3uGSA4ez3J1IHh3O5Vq1bvfvfu9S4g/YYhUznQBQpEm9XoFnIAN+FIhJRgBKYAAAAASUVORK5CYII="
+    />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=flip_camera_android" />
+    <title>VAIFresh</title>
+    <style>
+      body {
+        background: #111;
+        margin: 0;
+        padding: 0;
+        font-family: "Arial", sans-serif;
+        color: white;
+      }
+
+      .header {
+        position: absolute;
+        top: 20px;
+        left: 30px;
+        display: flex;
+        flex-direction: row;
+        align-items: baseline;
+        gap: 0;
+        z-index: 100;
+      }
+
+      .animation {
+        font-size: 1.8rem;
+        background: linear-gradient(
+          90deg,
+          rgb(255, 0, 183),
+          rgb(229, 255, 0),
+          rgb(251, 0, 255),
+          rgb(185, 124, 32),
+          rgb(115, 56, 56)
+        );
+        background-size: 300%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-align: left;
+        animation: gradientAnimation 5s ease infinite;
+        margin: 0;
+      }
+
+      .aiText {
+        font-size: 1.8rem;
+        color: rgb(255, 236, 254) !important;
+      }
+
+      .right-buttons {
+        position: fixed;
+        top: 20px;
+        right: 30px;
+        display: flex;
+        gap: 15px;
+        z-index: 101;
+      }
+
+      .round-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        color: white;
+        font-size: 1.2rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        font-weight: bold;
+      }
+
+      .round-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: scale(1.1);
+      }
+
+      .menu {
+        position: fixed;
+        top: 0;
+        right: -300px;
+        width: 250px;
+        height: 100vh;
+        background: rgba(20, 20, 20, 0.95);
+        z-index: 99;
+        transition: all 0.3s ease;
+        padding: 80px 20px;
+        box-sizing: border-box;
+        backdrop-filter: blur(10px);
+      }
+
+      .menu.active {
+        right: 0;
+      }
+
+      .menu a {
+        color: white;
+        text-decoration: none;
+        display: block;
+        padding: 15px;
+        font-size: 1.1rem;
+        border-radius: 5px;
+        transition: all 0.2s ease;
+        margin-bottom: 5px;
+      }
+
+      #toggleBtn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+      }
+
+      .menu a:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        transform: translateX(-5px);
+      }
+
+      .info-panel {
+        position: fixed;
+        top: 0;
+        right: -300px;
+        width: 250px;
+        height: 100vh;
+        background: rgba(20, 20, 20, 0.95);
+        z-index: 99;
+        transition: all 0.3s ease;
+        padding: 80px 20px;
+        box-sizing: border-box;
+        color: white;
+        backdrop-filter: blur(10px);
+      }
+
+      .info-panel.active {
+        right: 0;
+      }
+
+      .info-panel h3 {
+        color: #ff00b7;
+        margin-top: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 10px;
+      }
+
+      .info-panel p {
+        line-height: 1.5;
+      }
+
+      @keyframes gradientAnimation {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 100px auto 40px;
+        background: rgba(30, 30, 30, 0.8);
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 20px auto;
+      }
+
+      .container h1 {
+        color: white;
+        margin-top: 0;
+        font-size: 2.2rem;
+        background: linear-gradient(90deg, #ff00b7, #ffea00);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .container p {
+        color: #ccc;
+      }
+
+      #video {
+        display: none;
+      }
+
+      #canvas {
+        display: block;
+        margin: 20px auto;
+        max-width: 100%;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      }
+
+      #flavor {
+        font-size: 1.5rem;
+        margin: 20px 0;
+        padding: 15px;
+        border-radius: 8px;
+        display: inline-block;
+        color: black;
+        font-weight: bold;
+        background: #64ff00;
+        transition: all 0.3s ease;
+        min-width: 300px;
+        text-align: center;
+      }
+
+      .info {
+        margin-top: 30px;
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        text-align: left;
+        border-left: 4px solid #0c0c0c;
+      }
+
+      .info h3 {
+        color: #ffea00;
+        margin-top: 0;
+      }
+
+      .info p {
+        margin-bottom: 10px;
+      }
+
+      .loading {
+        margin: 20px;
+        padding: 15px;
+        background: rgba(255, 0, 183, 0.1);
+        border-radius: 8px;
+        text-align: center;
+        color: #ff00b7;
+        border: 1px dashed rgba(255, 0, 183, 0.3);
+      }
+
+      .neon-text {
+        text-shadow: 0 0 5px #ff00b7, 0 0 10px #ff00b7, 0 0 20px #ff00b7;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          margin: 80px 20px 20px;
+          padding: 20px;
+        }
+
+        .header {
+          left: 15px;
+          top: 15px;
+        }
+
+        .right-buttons {
+          right: 15px;
+          top: 15px;
+        }
+
+        #flavor {
+          min-width: auto;
+          width: 100%;
+          box-sizing: border-box;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1 class="animation">V<span class="aiText">AI</span></h1>
+      <h1 class="animation">FRESH</h1>
+    </div>
+
+    <div class="right-buttons">
+      <button class="round-btn" id="infoBtn">i</button>
+      <button class="round-btn" id="hamburgerBtn">☰</button>
+    </div>
+
+    <div class="menu" id="menu">
+      <a  id="toggleBtn">Cámara frontal <span class='material-symbols-outlined'>flip_camera_android</span></a>
+      <a href="http://localhost:8000\vaifresh-low-precision-v0.html"
+        >VaiFresh prototype</a
+      >
+      <a href="http://localhost:8000\vaifresh-v1.html">VaiFresh tflite</a>
+    </div>
+
+    <div class="info-panel" id="infoPanel">
+      <h3>Información</h3>
+      <p>
+        Esta es una aplicación demo creada para mostrar la interfaz de VAIFresh.
+      </p>
+      <p>Versión 1.0.0</p>
+      <p>Tecnologías utilizadas:</p>
+      <ul>
+        <li>TensorFlow Lite</li>
+        <li>MediaPipe</li>
+        <li>Computer Vision</li>
+      </ul>
+    </div>
+
+    <div class="container">
+      <p>
+        Sistema de reconocimiento de sabores en tiempo real - High precision
+      </p>
+
+      <div id="flavor">--</div>
+
+      <video id="video" autoplay playsinline></video>
+      <canvas id="canvas"></canvas>
+
+      <div class="info">
+        <h3>Instrucciones:</h3>
+        <p>1. Permite el acceso a la cámara cuando se solicite.</p>
+        <p>2. Acerca un objeto a la cámara para su detección.</p>
+        <p>3. El sistema clasificará el objeto.</p>
+      </div>
+
+      <div id="loading" class="loading">Cargando modelo de detección...</div>
+    </div>
+
+    <script>
+      const hamburgerBtn = document.getElementById("hamburgerBtn");
+      const menu = document.getElementById("menu");
+      const infoBtn = document.getElementById("infoBtn");
+      const infoPanel = document.getElementById("infoPanel");
+
+      hamburgerBtn.addEventListener("click", () => {
+        menu.classList.toggle("active");
+        if (infoPanel.classList.contains("active")) {
+          infoPanel.classList.remove("active");
+        }
+      });
+
+      infoBtn.addEventListener("click", () => {
+        infoPanel.classList.toggle("active");
+        if (menu.classList.contains("active")) {
+          menu.classList.remove("active");
+        }
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!menu.contains(e.target) && !hamburgerBtn.contains(e.target)) {
+          menu.classList.remove("active");
+        }
+        if (!infoPanel.contains(e.target) && !infoBtn.contains(e.target)) {
+          infoPanel.classList.remove("active");
+        }
+      });
+    </script>
+
+    <script type="module">
+      import {
+        ObjectDetector,
+        FilesetResolver,
+      } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0";
+
+      const video = document.getElementById("video");
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+      const flavorDisplay = document.getElementById("flavor");
+      const loadingElement = document.getElementById("loading");
+
+      const DETECTION_STYLE = {
+        background: "#64ff00",
+        text: "#000000",
+        name: "Objeto detectado",
+      };
+
+      let detector;
+      let lastDetectionTime = -1;
+      let isModelLoaded = false;
+
+      const toggleBtn = document.getElementById("toggleBtn");
+      let currentFacingMode = "user"; // Comienza con cámara frontal
+      let currentStream = null;
+
+      async function startCamera(facingMode) {
+        // Detiene cualquier stream previo
+        if (currentStream) {
+          currentStream.getTracks().forEach((track) => track.stop());
+        }
+
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode },
+            audio: false,
+          });
+
+          video.srcObject = stream;
+          currentStream = stream;
+        } catch (err) {
+          console.error("Error al acceder a la cámara:", err);
+        }
+      }
+
+      toggleBtn.addEventListener("click", () => {
+        currentFacingMode =
+          currentFacingMode === "user" ? "environment" : "user";
+        toggleBtn.innerHTML =
+          currentFacingMode === "user"
+            ? "Cámara frontal <span class='material-symbols-outlined'>flip_camera_android</span>"
+            : "Cámara trasera <span class='material-symbols-outlined'>flip_camera_android</span>";
+
+        startCamera(currentFacingMode);
+      });
+
+      // Inicia con la cámara frontal
+      startCamera(currentFacingMode);
+
+      async function initializeDetector() {
+        try {
+          loadingElement.textContent = "Cargando módulos de visión...";
+
+          const vision = await FilesetResolver.forVisionTasks(
+            "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/wasm"
+          );
+
+          loadingElement.textContent = "Cargando modelo de sabores...";
+
+          detector = await ObjectDetector.createFromOptions(vision, {
+            baseOptions: {
+              modelAssetPath: "frescoleche.tflite",
+              delegate: "GPU",
+            },
+            maxResults: 5,
+            scoreThreshold: 0.7,
+            runningMode: "VIDEO",
+            categoryAllowlist: ["fresa", "vainilla", "chocolate"],
+          });
+
+          loadingElement.textContent = "Modelo cargado correctamente";
+          setTimeout(() => {
+            loadingElement.style.display = "none";
+            isModelLoaded = true;
+          }, 1000);
+
+          setupCamera();
+        } catch (error) {
+          console.error("Failed to initialize detector:", error);
+          loadingElement.textContent =
+            "Error al cargar el modelo. Recarga la página.";
+          loadingElement.style.color = "red";
+        }
+      }
+
+      async function setupCamera() {
+        try {
+          loadingElement.textContent = "Solicitando acceso a la cámara...";
+
+          const stream = await navigator.mediaDevices.getUserMedia({
+            video: {
+              width: { ideal: 1280 },
+              height: { ideal: 720 },
+              facingMode: "user",
+            },
+          });
+
+          video.srcObject = stream;
+
+          video.addEventListener("loadeddata", () => {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            predict();
+          });
+        } catch (error) {
+          console.error("Camera access denied:", error);
+          loadingElement.textContent = "Error: No se pudo acceder a la cámara.";
+          loadingElement.style.color = "red";
+        }
+      }
+
+      function predict() {
+        if (!isModelLoaded) {
+          requestAnimationFrame(predict);
+          return;
+        }
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        if (video.currentTime === lastDetectionTime || !detector) {
+          requestAnimationFrame(predict);
+          return;
+        }
+
+        lastDetectionTime = video.currentTime;
+
+        const detections = detector.detectForVideo(
+          video,
+          performance.now()
+        ).detections;
+
+        if (detections.length > 0) {
+          const bestDetection = detections.reduce((prev, current) =>
+            prev.categories[0].score > current.categories[0].score
+              ? prev
+              : current
+          );
+
+          const bbox = bestDetection.boundingBox;
+          const category = bestDetection.categories[0];
+          const score = category.score * 100;
+          const categoryName = category.categoryName;
+
+          flavorDisplay.textContent = `${categoryName}: ${score.toFixed(1)}%`;
+          flavorDisplay.style.backgroundColor = DETECTION_STYLE.background;
+          flavorDisplay.style.color = DETECTION_STYLE.text;
+
+          // Línea discontinada verde
+          ctx.setLineDash([5, 5]);
+          ctx.strokeStyle = DETECTION_STYLE.background;
+          ctx.lineWidth = 4;
+          ctx.strokeRect(bbox.originX, bbox.originY, bbox.width, bbox.height);
+
+          ctx.fillStyle = DETECTION_STYLE.background + "CC";
+          ctx.fillRect(bbox.originX, bbox.originY - 30, bbox.width, 30);
+
+          ctx.fillStyle = DETECTION_STYLE.text;
+          ctx.font = "bold 16px Arial";
+          ctx.fillText(
+            `${categoryName}: ${score.toFixed(1)}%`,
+            bbox.originX + 10,
+            bbox.originY - 10
+          );
+
+          ctx.setLineDash([]);
+        } else {
+          flavorDisplay.textContent = "Acerca un objeto a la cámara";
+          flavorDisplay.style.backgroundColor = "rgba(0, 0, 0, 0.3)";
+          flavorDisplay.style.color = "white";
+        }
+
+        requestAnimationFrame(predict);
+      }
+
+      window.addEventListener("resize", () => {
+        if (video.videoWidth && video.videoHeight) {
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+        }
+      });
+
+      initializeDetector();
+    </script>
+  </body>
+</html>
