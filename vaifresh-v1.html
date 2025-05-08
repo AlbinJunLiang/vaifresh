@@ -8,7 +8,10 @@
       rel="icon"
       href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcBAMAAACAI8KnAAAALVBMVEVHcExAredAredAredAredBredAredAredArOdAredAredAredAredAredArefCaiQgAAAAD3RSTlMAGWBKDSuClTdw/u3ArdzYmon0AAAAv0lEQVR4AWOgG2BUFmBRdmBNT3ZW0nBgYOBc3cC4xvHWu915q3eVAGXPNbDs9V3mYCa5LO4pkHuvgeWt9QEGBqZlfQeh3FkJQF3r3hlAuHtnFQC5a9Y1QLnWD4DclbOARrFUTWFaxrvWRUhype9KoMV9614dZD21bl3kcubdQM2suTcFGJzKk5mTWNQNwC5jcRQUcXGAuDJYM/3uGSA4ez3J1IHh3O5Vq1bvfvfu9S4g/YYhUznQBQpEm9XoFnIAN+FIhJRgBKYAAAAASUVORK5CYII="
     />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=flip_camera_android" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=flip_camera_android"
+    />
 
     <style>
       body {
@@ -303,9 +306,11 @@
     </div>
 
     <!-- Menú desplegable -->
-    <div class="menu" id="menu">
+     <div class="menu" id="menu">
       <a  id="toggleBtn">Cámara frontal <span class='material-symbols-outlined'>flip_camera_android</span></a>
-      <a href="https://albinjunliang.github.io/vaifresh/vaifresh-low-precision-v0.html">VaiFresh prototype</a>
+      <a href="https://albinjunliang.github.io/vaifresh/vaifresh-low-precision-v0.html"
+        >VaiFresh prototype</a
+      >
       <a href="https://albinjunliang.github.io/vaifresh/vaifresh-v1.html">VaiFresh tflite</a>
     </div>
 
@@ -350,42 +355,8 @@
       const infoBtn = document.getElementById("infoBtn");
       const infoPanel = document.getElementById("infoPanel");
 
-      const toggleBtn = document.getElementById("toggleBtn");
-      let currentFacingMode = "user"; // Comienza con cámara frontal
-      let currentStream = null;
 
-      async function startCamera(facingMode) {
-        // Detiene cualquier stream previo
-        if (currentStream) {
-          currentStream.getTracks().forEach((track) => track.stop());
-        }
-
-        try {
-          const stream = await navigator.mediaDevices.getUserMedia({
-            video: { facingMode },
-            audio: false,
-          });
-
-          video.srcObject = stream;
-          currentStream = stream;
-        } catch (err) {
-          console.error("Error al acceder a la cámara:", err);
-        }
-      }
-
-      toggleBtn.addEventListener("click", () => {
-        currentFacingMode =
-          currentFacingMode === "user" ? "environment" : "user";
-          toggleBtn.innerHTML =
-          currentFacingMode === "user"
-            ? "Cámara frontal <span class='material-symbols-outlined'>flip_camera_android</span>"
-            : "Cámara trasera <span class='material-symbols-outlined'>flip_camera_android</span>";
-                  startCamera(currentFacingMode);
-
-      });
-
-      // Inicia con la cámara frontal
-      startCamera(currentFacingMode);
+      
       // Alternar menú
       hamburgerBtn.addEventListener("click", () => {
         menu.classList.toggle("active");
@@ -427,6 +398,51 @@
       const ctx = canvas.getContext("2d");
       const flavorDisplay = document.getElementById("flavor");
       const loadingElement = document.getElementById("loading");
+
+
+
+
+      const toggleBtn = document.getElementById("toggleBtn");
+
+// Carga la preferencia del usuario o usa "user" como predeterminado
+let currentFacingMode = localStorage.getItem("facingMode") || "user";
+let currentStream = null;
+
+async function startCamera(facingMode) {
+  if (currentStream) {
+    currentStream.getTracks().forEach((track) => track.stop());
+  }
+
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode },
+      audio: false,
+    });
+
+    video.srcObject = stream;
+    currentStream = stream;
+  } catch (err) {
+    console.error("Error al acceder a la cámara:", err);
+  }
+}
+
+function updateToggleButton() {
+  toggleBtn.innerHTML =
+    currentFacingMode === "user"
+      ? "Cámara frontal <span class='material-symbols-outlined'>flip_camera_android</span>"
+      : "Cámara trasera <span class='material-symbols-outlined'>flip_camera_android</span>";
+}
+
+toggleBtn.addEventListener("click", () => {
+  currentFacingMode = currentFacingMode === "user" ? "environment" : "user";
+  localStorage.setItem("facingMode", currentFacingMode); // Guarda la preferencia
+  updateToggleButton();
+  startCamera(currentFacingMode);
+});
+
+// Inicializa botón y cámara con el valor guardado
+updateToggleButton();
+startCamera(currentFacingMode);
 
       const COLOR_PALETTE = {
         fresa: { background: "#FF69B4", text: "#FFFFFF", name: "Fresa" },
