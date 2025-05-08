@@ -383,42 +383,51 @@
       let lastDetectionTime = -1;
       let isModelLoaded = false;
 
+
+
+
       const toggleBtn = document.getElementById("toggleBtn");
-      let currentFacingMode = "user"; // Comienza con cámara frontal
-      let currentStream = null;
 
-      async function startCamera(facingMode) {
-        // Detiene cualquier stream previo
-        if (currentStream) {
-          currentStream.getTracks().forEach((track) => track.stop());
-        }
+// Carga la preferencia del usuario o usa "user" como predeterminado
+let currentFacingMode = localStorage.getItem("facingMode") || "user";
+let currentStream = null;
 
-        try {
-          const stream = await navigator.mediaDevices.getUserMedia({
-            video: { facingMode },
-            audio: false,
-          });
+async function startCamera(facingMode) {
+  if (currentStream) {
+    currentStream.getTracks().forEach((track) => track.stop());
+  }
 
-          video.srcObject = stream;
-          currentStream = stream;
-        } catch (err) {
-          console.error("Error al acceder a la cámara:", err);
-        }
-      }
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode },
+      audio: false,
+    });
 
-      toggleBtn.addEventListener("click", () => {
-        currentFacingMode =
-          currentFacingMode === "user" ? "environment" : "user";
-        toggleBtn.innerHTML =
-          currentFacingMode === "user"
-            ? "Cámara frontal <span class='material-symbols-outlined'>flip_camera_android</span>"
-            : "Cámara trasera <span class='material-symbols-outlined'>flip_camera_android</span>";
+    video.srcObject = stream;
+    currentStream = stream;
+  } catch (err) {
+    console.error("Error al acceder a la cámara:", err);
+  }
+}
 
-        startCamera(currentFacingMode);
-      });
+function updateToggleButton() {
+  toggleBtn.innerHTML =
+    currentFacingMode === "user"
+      ? "Cámara frontal <span class='material-symbols-outlined'>flip_camera_android</span>"
+      : "Cámara trasera <span class='material-symbols-outlined'>flip_camera_android</span>";
+}
 
-      // Inicia con la cámara frontal
-      startCamera(currentFacingMode);
+toggleBtn.addEventListener("click", () => {
+  currentFacingMode = currentFacingMode === "user" ? "environment" : "user";
+  localStorage.setItem("facingMode", currentFacingMode); // Guarda la preferencia
+  updateToggleButton();
+  startCamera(currentFacingMode);
+});
+
+// Inicializa botón y cámara con el valor guardado
+updateToggleButton();
+startCamera(currentFacingMode);
+
 
       async function initializeDetector() {
         try {
